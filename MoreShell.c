@@ -25,6 +25,7 @@ main()
 		char buffer[256];
 		readline(0, buffer, 255);
 		buffer[strlen(buffer) - 1] = '\0'; // get rid of cr
+		strcpy(buffer, str_replace(buffer, "~", getenv("HOME")));
 		parse_argv(buffer, argv);
 		if(strcmp("exit", argv[0]) == 0) exit(0);
 		pid_t forkpid;
