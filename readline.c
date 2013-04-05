@@ -1,7 +1,6 @@
-#include	"unp.h"
 
 ssize_t
-readline(int fd, void *vptr, size_t maxlen)
+readline(int fd, char *vptr, size_t maxlen)
 {
 	ssize_t	n, rc;
 	char	c, *ptr;
