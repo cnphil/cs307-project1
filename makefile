@@ -1,4 +1,4 @@
-all: MyCopy ForkCopy PipeCopy timer MyShell MoreShell DupShell
+all: MyCopy ForkCopy PipeCopy timer MyShell MoreShell DupShell MergesortSingle MergesortMulti
 clear:
 	rm *.o
 MyCopy: MyCopy.o
@@ -29,3 +29,12 @@ DupShell: DupShell.o
 	g++ DupShell.o -o DupShell
 DupShell.o:
 	g++ -c DupShell.c
+MergesortSingle: MergesortSingle.o
+	g++ MergesortSingle.o -o MergesortSingle
+MergesortSingle.o:
+	g++ -c MergesortSingle.c 
+MergesortMulti: MergesortMulti.o
+	g++ -lpthread MergesortMulti.o -o MergesortMulti
+MergesortMulti.o:
+	g++ -c MergesortMulti.c 
+
