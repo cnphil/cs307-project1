@@ -24,10 +24,11 @@ main()
 		write(1, "$ ", 2);
 		char buffer[256];
 		readline(0, buffer, 255);
-		buffer[strlen(buffer) - 1] = '\0'; // get rid of cr
+		buffer[strlen(buffer) - 1] = ' '; // get rid of cr
 		strcpy(buffer, replace_str(buffer, "~", getenv("HOME")));
 		parse_argv(buffer, argv);
-		if(strcmp("exit", argv[0]) == 0) exit(0);
+		
+		if(argv[0] != NULL && strcmp("exit", argv[0]) == 0) exit(0);
 		pid_t forkpid;
 		forkpid = fork();
 

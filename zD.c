@@ -24,25 +24,9 @@ void parse_pipe(char *buffer, char *argv[])
 	}
 }
 
-int spawn_proc (int in, int out, char *argv[])
-{
-  pid_t pid;
-
-  if ((pid = fork ()) == 0) {
-      if (in != 0) {
-          dup2 (in, 0);
-          close (in);
-      }
-      if (out != 1) {
-          dup2 (out, 1);
-          close (out);
-      }
-
-      return execvp (argv [0], argv);
-    }
-
-  return pid;
-}
+struct pair {
+	int n[2];
+};
 
 main()
 {
@@ -53,29 +37,31 @@ main()
 		write(1, "$ ", 2);
 		char buffer[256], buffer2[256];
 		readline(0, buffer, 255);
-		buffer[strlen(buffer) - 1] = ' '; // get rid of cr
+		buffer[strlen(buffer) - 1] = '\0'; // get rid of cr
 		strcpy(buffer, replace_str(buffer, "~", getenv("HOME")));
 		strcpy(buffer2, buffer);
 		parse_argv(buffer, argv);
-		if(argv[0] != NULL && strcmp("exit", argv[0]) == 0) exit(0);
+		if(strcmp("exit", argv[0]) == 0) exit(0);
 	
+		pair pipefd;
+		pipe(pipefd.n);
 		parse_pipe(buffer2, comm);
-		int n;
-		for(n = 0; comm[n] != NULL; n++) ;
-		int i, in, fd[2];
-		in = 0;
-		for(i = 0; i < n - 1; i++) {
-			pipe(fd);
-			parse_argv(comm[i], argv);
-			spawn_proc(in, fd[1], argv);
-			close(fd[1]);
-			in  = fd[0];
+		for(int i = 0; comm[i] != NULL; i++) {
+			write(1, "\"", 1);
+			write(1, comm[i], strlen(comm[i]));
+			write(1, "\"", 1);
+			if(fork() == 0) {
+				if(i != 1) {dup2(pipefd.n[1], 1); close(pipefd.n[0]);}
+				if(i != 0) {dup2(pipefd.n[0], 0); close(pipefd.n[1]);}
+				parse_argv(comm[i], argv);
+				execvp(argv[0], argv);
+				perror("exec failed");
+				exit(1);
+			}
+			write(1, "IN", 2);
+			wait(NULL);
+			write(1, "OUT", 3);
 		}
-		parse_argv(comm[n - 1], argv);
-		int last = spawn_proc(in, 1, argv);
-
-		int status;
-		waitpid(last, &status, 0);
 	}
 	exit(0);
 }
