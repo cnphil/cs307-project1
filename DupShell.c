@@ -34,6 +34,7 @@ main()
 		char buffer[256], buffer2[256];
 		readline(0, buffer, 255);
 		buffer[strlen(buffer) - 1] = '\0'; // get rid of cr
+		strcpy(buffer, replace_str(buffer, "~", getenv("HOME")));
 		strcpy(buffer2, buffer);
 		parse_argv(buffer, argv);
 		if(strcmp("exit", argv[0]) == 0) exit(0);
