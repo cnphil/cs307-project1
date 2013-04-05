@@ -24,9 +24,12 @@ void *m_sort(void *args)
 {
   struct arg_struct *aus = (struct arg_struct *) args;
   int mid, left = aus->le, right = aus->ri;
- 
+
+
+
   if (right > left)
   {
+
     mid = (right + left) / 2;
 	pthread_t lth, rth;
 	struct arg_struct lst, rst;
@@ -39,7 +42,12 @@ void *m_sort(void *args)
 	pthread_join(lth, NULL);
 	pthread_join(rth, NULL);
     merge(left, mid+1, right);
+  
+
   }
+ 
+  
+
   pthread_exit(0);
 }
  
@@ -79,7 +87,7 @@ void merge(int left, int mid, int right)
     mid = mid + 1;
     temp_pos = temp_pos + 1;
   }
- 
+
   for (i=0; i <= num_elements; i++)
   {
     numbers[right] = temp[right];

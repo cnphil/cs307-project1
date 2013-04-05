@@ -34,7 +34,7 @@ MergesortSingle: MergesortSingle.o
 MergesortSingle.o:
 	g++ -c MergesortSingle.c 
 MergesortMulti: MergesortMulti.o
-	g++ -lpthread MergesortMulti.o -o MergesortMulti
+	g++ -pthread MergesortMulti.o -o MergesortMulti
 MergesortMulti.o:
 	g++ -c MergesortMulti.c 
 
