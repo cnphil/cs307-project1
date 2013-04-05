@@ -1,4 +1,4 @@
-all: MyCopy ForkCopy
+all: MyCopy ForkCopy PipeCopy
 clear:
 	rm *.o
 MyCopy: MyCopy.o
@@ -9,3 +9,7 @@ ForkCopy: ForkCopy.o
 	g++ ForkCopy.o -o ForkCopy
 ForkCopy.o:
 	g++ -c ForkCopy.c
+PipeCopy: PipeCopy.o
+	g++ PipeCopy.o -o PipeCopy
+PipeCopy.o:
+	g++ -c PipeCopy.c
