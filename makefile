@@ -1,4 +1,4 @@
-all: MyCopy ForkCopy PipeCopy
+all: MyCopy ForkCopy PipeCopy timer
 clear:
 	rm *.o
 MyCopy: MyCopy.o
@@ -13,3 +13,7 @@ PipeCopy: PipeCopy.o
 	g++ PipeCopy.o -o PipeCopy
 PipeCopy.o:
 	g++ -c PipeCopy.c
+timer: timer.o
+	g++ timer.o -o timer
+timer.o:
+	g++ -c timer.c
